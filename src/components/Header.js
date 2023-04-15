@@ -8,59 +8,23 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const socials = [
-  {
-    icon: faEnvelope,
-    url: "mailto: hello@example.com",
-  },
-  {
-    icon: faGithub,
-    url: "https://github.com",
-  },
-  {
-    icon: faLinkedin,
-    url: "https://www.linkedin.com",
-  },
-  {
-    icon: faMedium,
-    url: "https://medium.com",
-  },
-  {
-    icon: faStackOverflow,
-    url: "https://stackoverflow.com",
-  },
-];
-
-const sections = [
-  {
-    name: "Projects",
-    anchor: "projects",
-  },
-  {
-    name: "Contact me",
-    anchor: "contactme",
-  },
-];
-
-const handleClick = (e, anchor) => {
-  e.preventDefault();
+const handleClick = (anchor) => {
   console.log(anchor);
   const id = `${anchor}-section`;
+  console.log(id);
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({
       behavior: "smooth",
       block: "start",
-      inline: "start",
     });
   }
-  //   console.log(id);
 };
 
 export default function Header() {
   return (
     <Box
-      position="fixed"
+      position="sticky"
       top={0}
       left={0}
       right={0}
@@ -93,8 +57,8 @@ export default function Header() {
               {sections.map((section) => (
                 <a
                   key={section.name}
-                  href={`/#${section.anchor}-section`}
-                  //   onClick={(e) => handleClick(e, section.anchor)}
+                  href={`#${section.url}`}
+                  onClick={() => handleClick(section.anchor)}
                 >
                   {section.name}
                 </a>
@@ -106,3 +70,44 @@ export default function Header() {
     </Box>
   );
 }
+
+const socials = [
+  {
+    icon: faEnvelope,
+    url: "mailto: hello@example.com",
+  },
+  {
+    icon: faGithub,
+    url: "https://github.com",
+  },
+  {
+    icon: faLinkedin,
+    url: "https://www.linkedin.com",
+  },
+  {
+    icon: faMedium,
+    url: "https://medium.com",
+  },
+  {
+    icon: faStackOverflow,
+    url: "https://stackoverflow.com",
+  },
+];
+
+const sections = [
+  //   {
+  //     name: "Home",
+  //     anchor: "home",
+  //     url: "/",
+  //   },
+  {
+    name: "Projects",
+    anchor: "projects",
+    url: "projects",
+  },
+  {
+    name: "Contact me",
+    anchor: "contactme",
+    url: "contact-me",
+  },
+];

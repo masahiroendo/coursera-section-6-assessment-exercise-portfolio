@@ -8,11 +8,10 @@ export default function ContactMeSection() {
       backgroundColor="#512DA8"
       py={16}
       spacing={8}
+      id="contactme-section"
     >
       <VStack w="1024px" p={32} alignItems="flex-start">
-        <Heading as="h1" id="contactme-section">
-          Contact Form
-        </Heading>
+        <Heading as="h1">Contact Form</Heading>
       </VStack>{" "}
     </FullScreenSection>
   );
