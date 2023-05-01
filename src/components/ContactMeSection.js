@@ -26,15 +26,11 @@ export default function ContactMeSection() {
       initialValues: {
         firstName: "",
         email: "",
-        type: "",
+        type: "hireMe",
         message: "",
       },
-      onSubmit: async (value, action) => {
-        await submit(value, action);
-        console.log(response.type);
-        if (response.type === "success") {
-          resetForm();
-        }
+      onSubmit: (values) => {
+        submit("", values);
       },
       validationSchema: Yup.object({
         firstName: Yup.string()
@@ -48,14 +44,18 @@ export default function ContactMeSection() {
           .optional("optional"),
         message: Yup.string()
           .min(4, "Your message must contains at least 5 characters")
-          .required("required"),
+          .required("Field required"),
       }),
     }
   );
 
   useEffect(() => {
-    if (!response.type && !response.message) {
+    if (!response.type || !response.message) {
       return;
+    }
+    console.log(response.type, response.message);
+    if (response.type === "success") {
+      resetForm();
     }
     onOpen(response.type, response.message);
   }, [response]);

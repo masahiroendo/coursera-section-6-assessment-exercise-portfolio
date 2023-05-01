@@ -7,11 +7,10 @@ import {
   faStackOverflow,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useRef, useState } from "react";
 
 const handleClick = (anchor) => {
-  console.log(anchor);
   const id = `${anchor}-section`;
-  console.log(id);
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({
@@ -22,15 +21,68 @@ const handleClick = (anchor) => {
 };
 
 export default function Header() {
+  // const [scrollDirection, setScrollDirection] = useState("up");
+
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    let prevScrollPos = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      const headerElement = headerRef.current;
+      if (!headerElement) {
+        return;
+      }
+      if (prevScrollPos > currentScrollPos) {
+        headerElement.style.transform = "translateY(0)";
+      } else {
+        headerElement.style.transform = "translateY(-200px)";
+      }
+      prevScrollPos = currentScrollPos;
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   let prevPositionY = window.scrollY;
+
+  //   const handleScroll = () => {
+  //     const currPositionY = window.scrollY;
+  //     const direction = currPositionY > prevPositionY ? "down" : "up";
+  //     console.log(prevPositionY, currPositionY);
+  //     if (
+  //       direction !== scrollDirection &&
+  //       (currPositionY - prevPositionY > 5 ||
+  //         currPositionY - prevPositionY < -5)
+  //     ) {
+  //       setScrollDirection(direction);
+  //     }
+  //     prevPositionY = currPositionY > 0 ? currPositionY : 0;
+  //     console.log("ScrollDirection", scrollDirection);
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [scrollDirection]);
+
   return (
     <Box
-      position="sticky"
+      position="fixed"
       top={0}
       left={0}
       right={0}
-      translateY={0}
+      ref={headerRef}
+      // transform={
+      //   scrollDirection === "down" ? "translateY(-100px)" : "translateY(0)"
+      // }
       transitionProperty="transform"
-      transitionDuration=".3s"
+      transitionDuration="0.5s"
       transitionTimingFunction="ease-in-out"
       backgroundColor="#18181b"
     >

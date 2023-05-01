@@ -16,18 +16,27 @@ const ProjectCard = ({ title, description, imageSrc }) => {
   // You should be able to implement the component with the elements imported above.
   // Feel free to import other UI components from Chakra UI if you wish to.
   return (
-    <VStack>
-      <Box>
-        <Image src={imageSrc} borderRadius="lg" maxW="md" />
-        <Heading size="md">{title}</Heading>
-        <Text>{description}</Text>
-        <Link href="https://chakra-ui.com">
-          <HStack gap={1}>
-            <Text>See more</Text>
-            <FontAwesomeIcon icon={faArrowRight} size="1x" />
-          </HStack>
-        </Link>
-      </Box>
+    <VStack
+      color="black"
+      backgroundColor="white"
+      cursor="pointer"
+      borderRadius="lg"
+    >
+      <Image src={imageSrc} alt={title} borderRadius="lg" />
+      <VStack spacing={4} alignItems="flex-start" p={5}>
+        <Heading as="h4" size="md">
+          {title}
+        </Heading>
+        <Text color="#64748b" fontSize="lg">
+          {description}
+        </Text>
+        {/* <Link href="https://chakra-ui.com"> */}
+        <HStack fontSize="md" fontWeight="medium">
+          <Text>See more</Text>
+          <FontAwesomeIcon icon={faArrowRight} size="1x" />
+        </HStack>
+        {/* </Link> */}
+      </VStack>
     </VStack>
   );
 };
