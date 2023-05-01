@@ -7,7 +7,7 @@ import {
   faStackOverflow,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const handleClick = (anchor) => {
   const id = `${anchor}-section`;
@@ -21,55 +21,27 @@ const handleClick = (anchor) => {
 };
 
 export default function Header() {
-  // const [scrollDirection, setScrollDirection] = useState("up");
-
   const headerRef = useRef(null);
 
   useEffect(() => {
-    let prevScrollPos = window.scrollY;
+    let prevPositionY = window.scrollY;
 
     const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
       const headerElement = headerRef.current;
-      if (!headerElement) {
-        return;
-      }
-      if (prevScrollPos > currentScrollPos) {
+      const currPositionY = window.scrollY;
+      const direction = currPositionY > prevPositionY ? "down" : "up";
+      if (direction === "up" && currPositionY - prevPositionY < -5) {
         headerElement.style.transform = "translateY(0)";
-      } else {
+      } else if (direction === "down" && currPositionY - prevPositionY > 5) {
         headerElement.style.transform = "translateY(-200px)";
       }
-      prevScrollPos = currentScrollPos;
+      prevPositionY = currPositionY;
     };
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // useEffect(() => {
-  //   let prevPositionY = window.scrollY;
-
-  //   const handleScroll = () => {
-  //     const currPositionY = window.scrollY;
-  //     const direction = currPositionY > prevPositionY ? "down" : "up";
-  //     console.log(prevPositionY, currPositionY);
-  //     if (
-  //       direction !== scrollDirection &&
-  //       (currPositionY - prevPositionY > 5 ||
-  //         currPositionY - prevPositionY < -5)
-  //     ) {
-  //       setScrollDirection(direction);
-  //     }
-  //     prevPositionY = currPositionY > 0 ? currPositionY : 0;
-  //     console.log("ScrollDirection", scrollDirection);
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [scrollDirection]);
 
   return (
     <Box
@@ -78,9 +50,6 @@ export default function Header() {
       left={0}
       right={0}
       ref={headerRef}
-      // transform={
-      //   scrollDirection === "down" ? "translateY(-100px)" : "translateY(0)"
-      // }
       transitionProperty="transform"
       transitionDuration="0.5s"
       transitionTimingFunction="ease-in-out"
